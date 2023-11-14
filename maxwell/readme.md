@@ -2,33 +2,56 @@
 **v0.1**
 
 
-A step-by-step introduction guide to running PyTorch GPU accelerated programs on Macleod HPC.
+A step-by-step introduction guide to running PyTorch GPU accelerated programs on Maxwell HPC.
 
 ### 1. Technical specifications
 
-Macleod is a Linux supercomputing cluster housed in the Edward Wright Datacentre and provides:
+Maxwell is a Linux supercomputing cluster housed in the Edward Wright Datacentre and provides:
 - 120 CPU cores and 1.2TB of RAM - Maximum 256GB per node
 - A100 nodes: Three nodes each with 3x A100 GPU 80GB cards
 - Comercial GPU nodes: Two GPU nodes each with 2x 2080ti 12GB cards.
 - High-speed network – a 10Gb network
 
-There currently exists two seperate partitions of the A100 nodes:
+There currently exists two seperate partitions of the A100 GPU nodes:
 - `a100_full`: 2 nodes where each A100 GPU memory is not partitioned and remains full at 80Gb per card.
 - `a100_mig`: 1 node where each A100 GPU is partitioned into 3, resulting in 9 GPU partitions each with ??GB.
 
-It is important to note that you cannot employ different GPU partitions in a distributed fashion, hence the current maximum distributed setting is 2 `a100_full` nodes with 9x A100 80GB GPU's in total.
+It is important to note that you cannot employ different GPU partitions in a distributed fashion, hence the current maximum distributed setting is 2x `a100_full` nodes with 9x A100 80GB GPU's in total.
 
 ### 2. Accessing the cluster
 
-Maxwell can be accessed via SSH when connected to the University network (not including eduroam).
+Requesting access to Maxwell is done by directly contacting digital research (digitalresearch@abdn.ac.uk), and is only available for Staff, PGR, and those who purchase resources. For UG and PGT students interested in HPC resources, see the Macleod cluster guide.
 
-To access the 
+#### 2.1 Remote Access
+
+Once access is granted, you can connect to Maxwell via SSH when connected to the University network (excluding eduroam). To access the university network remotely the f5 VPN provides seamless connection for managed devices. For personal devices the Web VPN can be employed by following https://remote.abdn.ac.uk/ .
+
+For more details regarding remote access, see https://www.abdn.ac.uk/staffnet/working-here/it-services/remote-access.php 
+
+
+#### 2.2 SSH and SFTP
+
+Any SSH client can be employed to connect to Maxwell, where PuTTy can be used on managed devices. Simply connect via the listed hostnames and ports below to access the login nodes for each HPC service. The username is your university username e.g. s01ab23.
+
+Maxwell login nodes:
+- Maxlogin1.abdn.ac.uk : port 22
+- Maxlogin2.abdn.ac.uk : port 22
+
+MacLeod login nodes:
+- Macleod1.abdn.ac.uk : port 22
+- Macleod2.abdn.ac.uk : port 22
+
+Transferring data can be achieved by SFTP via the same settings as previously outlined. Again, any SFTP client can be used, however, university managed devices can use WinSCP.
+
+**Note:** It is recommended that git version management tools are employed for managing code on the HPC services.
 
 If you run into any issues at this stage contact servicedesk@abdn.ac.uk  
 
-### 3. Initial setup, conda environment
+### 3. Data Storage
 
-Once you are logged into Macleod you will find yourself in the home directory. The storage on Macleod is split into two partitions `home/` and `sharedscratch/` to keep things simple I recommend saving all your files to your personal `sharedscratch/` parition, this is due to the `sharedscratch` having a larger storage limit than the `home` partition. Simply change to the `sharedscratch/` directory from the home directory using `cd sharedscratch`. The full `sharedscratch` path is defined as: `/home/<username>/sharedscratch/`
+Once you are logged into Maxwell you will find yourself in the home directory. The storage on both Maxwell and Macleod is split into two partitions `home/` and `sharedscratch/` to keep things simple I recommend saving all your files to your personal `sharedscratch/` parition, this is due to the `sharedscratch` having a larger storage limit than the `home` partition. Simply change to the `sharedscratch/` directory from the home directory using `cd sharedscratch`. The full `sharedscratch` path is defined as: `/home/<username>/sharedscratch/`
+
+### 4. Initial setup, conda environment
 
 Now you have connected to Macleod you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment. 
 
@@ -36,7 +59,7 @@ First load anaconda via:
 `module load anaconda3`
 
 Now you can create an environment using the following:
-`conda create -n <your_env_name> python=3.8`
+`conda create -n <your_env_name> python=3.11`
 
 **Note:** For first time installs you may be prompted to configure your shell, if you receive this error run the command `conda init bash` and then exit / close the terminal, ssh back into macleod and load the anaconda3 module to continue.
 
@@ -53,7 +76,7 @@ For this example we will install the following (Note: when installing PyTorch us
 
 Now you have a virtual environment created and all your packages installed, you can now use this environment everytime you use macleod. Remember you must load the module anaconda3 before you activate your environment.
 
-### 4. Getting your data on Macleod
+### 5. Getting your data on Macleod
 
 The easiest solution to uploading your code is through github, to download from an online repository. This is not only simple, but using version control and web hosting is best practice and should be employed.
 
@@ -61,7 +84,7 @@ If you must upload from your local device you can use SFTP from your own device 
 
 `sftp -J <username>@ssh-gateway.abdn.ac.uk <username>@macleod1.abdn.ac.uk`
 
-### 5. Intro to SLURM and running your code
+### 6. Intro to SLURM and running your code
 
 Unlike your standard desktop computer, you must submit a “job” for execution to a scheduler. Here the Macleod cluster uses SLURM workload manager to schedule the allocation of resources for jobs.
 
@@ -117,7 +140,7 @@ To check the status of queued and running jobs, use the following:
 If you wish to cancel a job simply use:
 `scancel <job_ID>`
 
-### 6. Info about your code (PyTorch)
+### 7. Info about your code (PyTorch)
 
 Example PyTorch code is given in this repository to help you get started, but generally, there are a few rules to follow.
 
