@@ -13,14 +13,14 @@ Maxwell is a Linux supercomputing cluster housed in the Edward Wright Datacentre
 - High-speed network – a 10Gb network
 
 There currently exists two seperate partitions of the A100 GPU nodes:
-- `a100_full`: 2 nodes where each A100 GPU memory is not partitioned and remains full at 80Gb per card.
+- `a100_full`: 3 nodes where each A100 GPU memory is not partitioned and remains full at 80Gb per card.
 - `a100_mig`: 1 node where each A100 GPU is partitioned into 3, resulting in 9 GPU partitions each with ??GB.
 
 It is important to note that you cannot employ different GPU partitions in a distributed fashion, hence the current maximum distributed setting is 2x `a100_full` nodes with 9x A100 80GB GPU's in total.
 
 ### 2. Accessing the cluster
 
-Requesting access to Maxwell is done by directly contacting digital research (digitalresearch@abdn.ac.uk), and is only available for Staff, PGR, and those who purchase resources. For UG and PGT students interested in HPC resources, see the Macleod cluster guide.
+Requesting access to Maxwell is done by directly contacting digital research (digitalresearch@abdn.ac.uk), and is only available for Staff, PGR, and those who purchase resources. For UG and PGT students interested in HPC resources, see the Maxwell cluster guide.
 
 #### 2.1 Remote Access
 
@@ -37,9 +37,9 @@ Maxwell login nodes:
 - Maxlogin1.abdn.ac.uk : port 22
 - Maxlogin2.abdn.ac.uk : port 22
 
-MacLeod login nodes:
-- Macleod1.abdn.ac.uk : port 22
-- Macleod2.abdn.ac.uk : port 22
+Maxwell login nodes:
+- Maxwell1.abdn.ac.uk : port 22
+- Maxwell2.abdn.ac.uk : port 22
 
 Transferring data can be achieved by SFTP via the same settings as previously outlined. Again, any SFTP client can be used, however, university managed devices can use WinSCP.
 
@@ -49,11 +49,11 @@ If you run into any issues at this stage contact servicedesk@abdn.ac.uk
 
 ### 3. Data Storage
 
-Once you are logged into Maxwell you will find yourself in the home directory. The storage on both Maxwell and Macleod is split into two partitions `home/` and `sharedscratch/` to keep things simple I recommend saving all your files to your personal `sharedscratch/` parition, this is due to the `sharedscratch` having a larger storage limit than the `home` partition. Simply change to the `sharedscratch/` directory from the home directory using `cd sharedscratch`. The full `sharedscratch` path is defined as: `/home/<username>/sharedscratch/`
+Once you are logged into Maxwell you will find yourself in the home directory. The storage on both Maxwell and Maxwell is split into two partitions `home/` and `sharedscratch/` to keep things simple I recommend saving all your files to your personal `sharedscratch/` parition, this is due to the `sharedscratch` having a larger storage limit than the `home` partition. Simply change to the `sharedscratch/` directory from the home directory using `cd sharedscratch`. The full `sharedscratch` path is defined as: `/home/<username>/sharedscratch/`
 
 ### 4. Initial setup, conda environment
 
-Now you have connected to Macleod you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment. 
+Now you have connected to Maxwell you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment. 
 
 First load anaconda via:
 `module load anaconda3`
@@ -61,7 +61,7 @@ First load anaconda via:
 Now you can create an environment using the following:
 `conda create -n <your_env_name> python=3.11`
 
-**Note:** For first time installs you may be prompted to configure your shell, if you receive this error run the command `conda init bash` and then exit / close the terminal, ssh back into macleod and load the anaconda3 module to continue.
+**Note:** For first time installs you may be prompted to configure your shell, if you receive this error run the command `conda init bash` and then exit / close the terminal, ssh back into Maxwell and load the anaconda3 module to continue.
 
 Once created, activate the environment
 `conda activate <your_env_name>` 
@@ -69,24 +69,24 @@ Once created, activate the environment
 You should now see the `(<your_env_name>)` in the bash shell.
 
 Now you can go ahead and install all your desired packages.
-For this example we will install the following (Note: when installing PyTorch use CUDA version 11.3):
-`conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch`
+For this example we will install the following (Note: when installing PyTorch use current CUDA version installed on maxwell, currently 11.7):
+`conda install pytorch torchvision torchaudio cudatoolkit=11.7 -c pytorch`
 `conda install -c conda-forge matplotlib`
 `conda install -c conda-forge tqdm`
 
-Now you have a virtual environment created and all your packages installed, you can now use this environment everytime you use macleod. Remember you must load the module anaconda3 before you activate your environment.
+Now you have a virtual environment created and all your packages installed, you can now use this environment everytime you use Maxwell. Remember you must load the module anaconda3 before you activate your environment.
 
-### 5. Getting your data on Macleod
+### 5. Getting your data on Maxwell
 
 The easiest solution to uploading your code is through github, to download from an online repository. This is not only simple, but using version control and web hosting is best practice and should be employed.
 
-If you must upload from your local device you can use SFTP from your own device to Macloed by the following, which jumps through the ssh-gateway.
+If you must upload from your local device you can use SFTP from your own device to Maxwell by the following
 
-`sftp -J <username>@ssh-gateway.abdn.ac.uk <username>@macleod1.abdn.ac.uk`
+`sftp <username>@maxlogin1.abdn.ac.uk -p 22`
 
 ### 6. Intro to SLURM and running your code
 
-Unlike your standard desktop computer, you must submit a “job” for execution to a scheduler. Here the Macleod cluster uses SLURM workload manager to schedule the allocation of resources for jobs.
+Unlike your standard desktop computer, you must submit a “job” for execution to a scheduler. Here the Maxwell cluster uses SLURM workload manager to schedule the allocation of resources for jobs.
 
 Some useful commands are as follows:
 `sinfo` - Show summary information 
@@ -94,7 +94,7 @@ Some useful commands are as follows:
 `scontrol show partition gpu` - Show gpu partition details
 `chkquota` - Show hard drive allocation used and free space
 
-To run a job (run your program) on Macleod you must submit a script to the SLURM scheduler. The SLURM script must contain 3 things:
+To run a job (run your program) on Maxwell you must submit a script to the SLURM scheduler. The SLURM script must contain 3 things:
 1. Define the resource requirements for the job
 2. Activate the environment we created earlier
 3. Specify the script we wish to run
@@ -108,8 +108,8 @@ An example script `run_example.sh` for this introduction guide is given here:
 #SBATCH --mem=32G # memory pool for all cores
 
 #SBATCH --ntasks-per-node=1 # one job per node
-#SBATCH --gres=gpu:7 # 7 of the 21 paritions
-#SBATCH --partition=ncs-staff 
+#SBATCH --gres=gpu:2 # 2 GPU paritions
+#SBATCH --partition=a100_mig
 
 #SBATCH -o slurm.%j.out # STDOUT
 #SBATCH -e slurm.%j.err # STDERR
