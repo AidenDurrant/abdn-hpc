@@ -27,9 +27,6 @@ best_acc = 0
 def main():
 
     args = parser.parse_args()
-
-    # Check if GPUs are available, if so set device to CUDA
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     start_epoch = 0  # start from epoch 0 or last checkpoint epoch
 
@@ -59,6 +56,20 @@ def main():
     # Construct dataset, dataloader for testing split
     testloader = torch.utils.data.DataLoader(
         testset, batch_size=args.bs, shuffle=False, num_workers=2)
+
+    '''
+    TO ENABLE GPU ACCELERATION SEND MODEL TO GPU IF AVAILABLE
+
+    Check if GPU available:
+    torch.cuda.is_available()
+
+    Send model to the GPU (device='cuda')
+    net.to(device)
+
+    https://PyTorch.org/docs/stable/notes/cuda.html#best-practices
+    '''
+    # Check if GPUs are available, if so set device to CUDA
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     # Initialise the VGG model
     print('==> Building model..')

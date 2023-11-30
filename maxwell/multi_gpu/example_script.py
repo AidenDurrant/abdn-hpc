@@ -27,9 +27,6 @@ best_acc = 0
 def main():
 
     args = parser.parse_args()
-
-    # Check if GPUs are available, if so set device to CUDA
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     start_epoch = 0  # start from epoch 0 or last checkpoint epoch
 
@@ -60,10 +57,24 @@ def main():
     testloader = torch.utils.data.DataLoader(
         testset, batch_size=args.bs, shuffle=False, num_workers=2)
 
+    # Check if GPUs are available, if so set device to CUDA
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
     # Initialise the VGG model
     print('==> Building model..')
     net = VGG()
     net = net.to(device) # Send to CUDA aka GPU
+
+    '''
+    ADD THE BELOW LINES TO ENABLE MULTIPLE GPU TRAINING!
+
+    net = torch.nn.DataParallel(net)
+
+    DataParallel will utlize all available GPUs.
+    
+    https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html
+
+    '''
     if device == 'cuda':
         net = torch.nn.DataParallel(net) # Use all available GPUs in dataparallel mode
         cudnn.benchmark = True
