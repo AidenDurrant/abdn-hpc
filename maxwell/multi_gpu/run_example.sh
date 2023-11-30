@@ -13,7 +13,7 @@
 #SBATCH --mail-type=ALL 
 #SBATCH --mail-user=<username>@abdn.ac.uk 
 
-module load anaconda3
+module load miniconda3
 source activate test
 
 srun python example_script.py --epochs=25 --save /home/<username>/sharedscratch/
