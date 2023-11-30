@@ -3,7 +3,7 @@
 
 A step-by-step introduction guide to running PyTorch GPU accelerated programs on Maxwell HPC.
 
-### 1. Technical specifications
+## 1. Technical specifications
 
 Maxwell is a Linux supercomputing cluster housed in the Edward Wright Datacentre and provides:
 - 120 CPU cores and 1.2TB of RAM - Maximum 256GB per node
@@ -17,17 +17,17 @@ There currently exist two separate partitions of the A100 GPU nodes:
 
 It is important to note that you cannot employ different GPU partitions in a distributed fashion, hence the current maximum distributed setting is 3x `a100_full` nodes with 9x A100 80GB GPU's in total.
 
-### 2. Accessing the cluster
+## 2. Accessing the cluster
 
 Requesting access to Maxwell is done by directly contacting [digital research](digitalresearch@abdn.ac.uk), and is only available for Staff, PGR, and those who purchase resources. For UG and PGT students interested in HPC resources, see the Maxwell cluster guide.
 
-#### 2.1 Remote Access
+### 2.1 Remote Access
 
 Once access is granted, you can connect to Maxwell via SSH when connected to the University network (excluding eduroam). To access the university network remotely the f5 VPN provides seamless connection for managed devices. For personal devices, the Web VPN can be employed by following https://remote.abdn.ac.uk/ .
 
 For more details regarding remote access, see https://www.abdn.ac.uk/staffnet/working-here/it-services/remote-access.php
 
-#### 2.2 SSH and SFTP
+### 2.2 SSH and SFTP
 
 Any SSH client can be employed to connect to Maxwell, where PuTTy can be used on managed devices. Simply connect via the listed hostnames and ports below to access the login nodes for each HPC service. The username is your university username e.g. s01ab23.
 
@@ -41,7 +41,7 @@ Transferring data can be achieved by SFTP via the same settings as previously ou
 
 If you run into any issues at this stage contact servicedesk@abdn.ac.uk  
 
-### 3. Data Storage
+## 3. Data Storage
 
 Once you are logged into Maxwell you will find yourself in the home directory `/uoa/home/<username>`.
 
@@ -58,7 +58,7 @@ Mode Details at (technical-specification-hpc-for-research)[https://uoa.freshserv
 
 We recommend you store all working code and data in the `sharedscratch` partition and only use `home` directory storage only when absolutely necessary.
 
-### 4. Getting your data on Maxwell
+## 4. Getting your data on Maxwell
 
 It is recommended that code management is handled through version control software such as Git and hosted in cloud repositories such as GitHub. This provides an effective solution for managing code across multiple devices including Maxwell.
 
@@ -68,7 +68,7 @@ For data files (i.e. datasets, logs, etc.) any SFTP client can be employed when 
 
 For a graphical interface, SCP is recommended by IT services and can be installed on all managed devices through the software centre.
 
-### 5. Initial setup, conda environment
+## 5. Initial setup, conda environment
 
 Now you have connected to Maxwell you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment.
 
@@ -93,7 +93,7 @@ For this example, we will install the following (Note: when installing PyTorch u
 
 Now you have a virtual environment created and all your packages installed, you can now use this environment every time you use Maxwell. Remember you must load the module anaconda3 before you activate your environment.
 
-### 6. Intro to SLURM and running your code
+## 6. Intro to SLURM and running your code
 
 Unlike your standard desktop computer, you must submit a “job” for execution to a scheduler. Here the Maxwell cluster uses SLURM workload manager to schedule the allocation of resources for jobs.
 
@@ -149,7 +149,7 @@ To check the status of queued and running jobs, use the following:
 If you wish to cancel a job simply use:
 `scancel <job_ID>`
 
-#### 6.2 MIG GPU Partition
+### 6.2 MIG GPU Partition
 
 Multi-Instance GPU (MIG) is a feature of Nvidia graphics cards that enables a single GPU to be virtually partitioned into separate GPU instances to provide users with a greater number of GPU instances for optimal utilization.
 
@@ -166,7 +166,7 @@ To access these resources simply utilise the following settings in the SLURM scr
 
 For more information on MIG see [here](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html)
 
-### 7. Distributed Computation
+## 7. Distributed Computation
 
 To fully leverage the GPU resources available on Maxwell, it is essential code is correctly implemented with distributed computation in mind. Although you can request large computational resources and SLURM will allocate them to you, it is up to the user to ensure their codes utilize these resources.
 
@@ -184,7 +184,7 @@ We advise users to follow the linked PyTorch documentation for each of these set
 
 **Note:** We advise only experienced users with strong distributed computational knowledge to request the multiple node, multiple GPU setting given its more strenuous implementation and key adjustment to individual codes.
 
-### 8. Example Code
+## 8. Example Code
 
 Single node, single GPU examples can be found `abdn-hpc/maxwell/single_gpu/`
 
@@ -192,8 +192,8 @@ Single node, multiple GPU examples can be found `abdn-hpc/maxwell/multi_gpu/`
 
 Multiple node, multiple GPU examples can be found `abdn-hpc/maxwell/multi_node_multi_gpu/`
 
-### 9. Miscellaneous
-#### 9.1 Wall Clock Time
+## 9. Miscellaneous
+### 9.1 Wall Clock Time
 Wall clock time is the duration for which the nodes remain allocated to you.
 
 All jobs have a maximum wall time of 24 hours, which is applied by default unless specified otherwise.
@@ -201,7 +201,7 @@ All jobs have a maximum wall time of 24 hours, which is applied by default unles
 If your job requires computation that is longer than 24 hours, you must handle it
 within the code/script. Typically this is done via "checkpointing", for more details see [Saving and Loading PyTorch Models](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
 
-### Additional Resources
+## Additional Resources
 
 Full Aberdeen HPC documentation:
 https://www.abdn.ac.uk/it/documents-uni-only/OCF-User0-Manual-Abderdeen-Maxwell.pdf

@@ -1,10 +1,10 @@
-## Macleod Cluster Introduction Guide -
+# Macleod Cluster Introduction Guide -
 **v1.0**
 
 
 A step-by-step introduction guide to running PyTorch GPU accelerated programs on Macleod HPC.
 
-### 1. Technical specifications
+## 1. Technical specifications
 
 Macleod is a Linux supercomputing cluster housed in the Edward Wright Datacentre and provides:
 - Specialist nodes: Two nodes each with 3x A100 GPU cards providing 21 GPU partitions
@@ -13,7 +13,7 @@ Macleod is a Linux supercomputing cluster housed in the Edward Wright Datacentre
 
 Each node contains 3 A100 GPU’s, where each GPU is partitioned into 7 virtual GPU partitions resulting in 21 partitions in total per node.
 
-### 2. MIG GPU Partition
+## 2. MIG GPU Partition
 
 Multi-Instance GPU (MIG) is a feature of Nvidia graphics cards that enables a single GPU to be virtually partitioned into separate GPU instances to provide users with a greater number of GPU instances for optimal utilization.
 
@@ -22,7 +22,7 @@ The MIG-enabled GPUs are placed on the `gpu` node, which contains 3x 80Gb A100 G
 To access these resources simply utilise the following settings in the SLURM script. All other settings remain the same, and the implementation of PyTorch code does not change.
 
 ```
-#SBATCH --gres=gpu:2 # 2 GPU instances out of 21
+#SBATCH --gres=gpu:2  2 GPU instances out of 21
 #SBATCH --partition=gpu
 ```
 
@@ -30,17 +30,17 @@ To access these resources simply utilise the following settings in the SLURM scr
 
 For more information on MIG see [here](https://docs.nvidia.com/datacenter/tesla/mig-user-guide/index.html)
 
-### 3. Accessing the cluster
+## 3. Accessing the cluster
 
 Requesting access to Macleod is done by directly contacting [digital research](digitalresearch@abdn.ac.uk), and is only available for Staff, PGR, and those who purchase resources. For UG and PGT students interested in HPC resources, see the Macleod cluster guide.
 
-#### 3.1 Remote Access
+### 3.1 Remote Access
 
 Once access is granted, you can connect to Macleod via SSH when connected to the University network (excluding eduroam). To access the university network remotely the f5 VPN provides seamless connection for managed devices. For personal devices, the Web VPN can be employed by following https://remote.abdn.ac.uk/ .
 
 For more details regarding remote access, see https://www.abdn.ac.uk/staffnet/working-here/it-services/remote-access.php
 
-#### 3.2 SSH and SFTP
+### 3.2 SSH and SFTP
 
 Any SSH client can be employed to connect to Macleod, where PuTTy can be used on managed devices. Simply connect via the listed hostnames and ports below to access the login nodes for each HPC service. The username is your university username e.g. s01ab23.
 
@@ -54,7 +54,7 @@ Transferring data can be achieved by SFTP via the same settings as previously ou
 
 If you run into any issues at this stage contact servicedesk@abdn.ac.uk  
 
-### 4. Data Storage
+## 4. Data Storage
 
 Once you are logged into Macleod you will find yourself in the home directory `/uoa/home/<username>`.
 
@@ -71,7 +71,7 @@ Mode Details at (technical-specification-hpc-for-research)[https://uoa.freshserv
 
 We recommend you store all working code and data in the `sharedscratch` partition and only use `home` directory storage only when absolutely necessary.
 
-### 5. Getting your data on Macleod
+## 5. Getting your data on Macleod
 
 It is recommended that code management is handled through version control software such as Git and hosted in cloud repositories such as GitHub. This provides an effective solution for managing code across multiple devices including Macleod.
 
@@ -81,7 +81,7 @@ For data files (i.e. datasets, logs, etc.) any SFTP client can be employed when 
 
 For a graphical interface, SCP is recommended by IT services and can be installed on all managed devices through the software centre.
 
-### 6. Initial setup, conda environment
+## 6. Initial setup, conda environment
 
 Now you have connected to Macleod you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment.
 
@@ -106,7 +106,7 @@ For this example, we will install the following (Note: when installing PyTorch u
 
 Now you have a virtual environment created and all your packages installed, you can now use this environment every time you use Macleod. Remember you must load the module anaconda3 before you activate your environment.
 
-### 7. Intro to SLURM and running your code
+## 7. Intro to SLURM and running your code
 
 Unlike your standard desktop computer, you must submit a “job” for execution to a scheduler. Here the Macleod cluster uses SLURM workload manager to schedule the allocation of resources for jobs.
 
@@ -125,16 +125,16 @@ An example script `run_example.sh` for this introduction guide is given here:
 
 ```
 #!/bin/bash
-#SBATCH --nodes=1 # number of nodes
-#SBATCH --cpus-per-task=12 # number of cores
-#SBATCH --mem=32G # memory pool for all cores
+#SBATCH --nodes=1  number of nodes
+#SBATCH --cpus-per-task=12  number of cores
+#SBATCH --mem=32G  memory pool for all cores
 
-#SBATCH --ntasks-per-node=1 # one job per node
-#SBATCH --gres=gpu:7 # 7 of the 21 paritions
+#SBATCH --ntasks-per-node=1  one job per node
+#SBATCH --gres=gpu:7  7 of the 21 paritions
 #SBATCH --partition=ncs-staff 
 
-#SBATCH -o slurm.%j.out # STDOUT
-#SBATCH -e slurm.%j.err # STDERR
+#SBATCH -o slurm.%j.out  STDOUT
+#SBATCH -e slurm.%j.err  STDERR
 
 #SBATCH --mail-type=ALL 
 #SBATCH --mail-user=<username>@abdn.ac.uk 
@@ -162,7 +162,7 @@ To check the status of queued and running jobs, use the following:
 If you wish to cancel a job simply use:
 `scancel <job_ID>`
 
-### 8. Distributed Computation
+## 8. Distributed Computation
 
 To fully leverage the GPU resources available on Macleod, it is essential code is correctly implemented with distributed computation in mind. Although you can request large computational resources and SLURM will allocate them to you, it is up to the user to ensure their codes utilize these resources.
 
@@ -178,8 +178,8 @@ We advise users to follow the linked PyTorch documentation for each of these set
 
 **Note:** As mentioned earlier, distributed computation is not supported on Macleod due to MIG limitations.
 
-### 9. Miscellaneous
-#### 9.1 Wall Clock Time
+## 9. Miscellaneous
+### 9.1 Wall Clock Time
 Wall clock time is the duration for which the nodes remain allocated to you.
 
 All jobs have a maximum wall time of 24 hours, which is applied by default unless specified otherwise.
@@ -187,7 +187,7 @@ All jobs have a maximum wall time of 24 hours, which is applied by default unles
 If your job requires computation that is longer than 24 hours, you must handle it
 within the code/script. Typically this is done via "checkpointing", for more details see [Saving and Loading PyTorch Models](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
 
-### Additional Resources 
+## Additional Resources 
 
 Full Aberdeen HPC documentation: 
 https://www.abdn.ac.uk/it/documents-uni-only/OCF-User0-Manual-Abderdeen-Maxwell.pdf

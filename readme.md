@@ -23,7 +23,7 @@ The `maxwell/` directory of this repo contains a written introduction guide and 
 - [ ] Add screenshots
 - [ ] Distributed computation guide
 
-### Official Resources
+## Official Resources
 
 Full Aberdeen HPC documentation:
 https://www.abdn.ac.uk/it/documents-uni-only/OCF-User0-Manual-Abderdeen-Maxwell.pdf
@@ -37,13 +37,13 @@ https://slurm.schedmd.com/tutorials.html
 Conda documentation:
 https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
-### Errors, Issues, and Contributions
+## Errors, Issues, and Contributions
 
 If you would like to contribute to these guides please fork the repository and make pull requests to propose your changes to the project. Alternatively, email specific changes to aiden.durrant@abdn.ac.uk for updates.
 
 Errors can be raised through the GitHub issues or again emailed to aiden.durrant@abdn.ac.uk .
 
-#### Author
+## Author
 Aiden Durrant
 
 Department of Computing Science, School of Natural and Computing Science
