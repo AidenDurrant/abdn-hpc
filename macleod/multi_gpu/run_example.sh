@@ -16,4 +16,4 @@
 module load anaconda3
 source activate test
 
-srun python example_script.py --epochs=25 --save /home/<username>/sharedscratch/
+srun python example_script.py --epochs=25 --save $HOME/sharedscratch/
