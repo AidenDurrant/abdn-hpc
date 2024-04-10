@@ -83,9 +83,9 @@ For a graphical interface, SCP is recommended by IT services and can be installe
 
 ## 6. Initial setup, conda environment
 
-Now you have connected to Macleod you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment.
+Now you have connected to Macleod you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an miniconda environment.
 
-First load anaconda via:
+First load miniconda via:
 `module load miniconda3`
 
 Now you can create an environment using the following:
@@ -104,7 +104,7 @@ For this example, we will install the following (Note: when installing PyTorch u
 `conda install -c conda-forge matplotlib`
 `conda install -c conda-forge tqdm`
 
-Now you have a virtual environment created and all your packages installed, you can now use this environment every time you use Macleod. Remember you must load the module anaconda3 before you activate your environment.
+Now you have a virtual environment created and all your packages installed, you can now use this environment every time you use Macleod. Remember you must load the module miniconda3 before you activate your environment.
 
 ## 7. Intro to SLURM and running your code
 
@@ -139,7 +139,7 @@ An example script `run_example.sh` for this introduction guide is given here:
 #SBATCH --mail-type=ALL 
 #SBATCH --mail-user=<username>@abdn.ac.uk 
 
-module load anaconda3
+module load miniconda3
 source activate <your_env_name>
 
 srun python example_script.py --epochs=25 --save /home/<username>/sharedscratch/

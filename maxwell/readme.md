@@ -70,9 +70,9 @@ For a graphical interface, SCP is recommended by IT services and can be installe
 
 ## 5. Initial setup, conda environment
 
-Now you have connected to Maxwell you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an anaconda environment.
+Now you have connected to Maxwell you must access your required packages, if your packages are not present in the software list (https://www.abdn.ac.uk/it/documents-uni-only/Maxwell-Galaxy-Software.pdf ), then the easiest way to download them is to create an miniconda environment.
 
-First load anaconda via:
+First load miniconda via:
 `module load miniconda3`
 
 Now you can create an environment using the following:
@@ -91,7 +91,7 @@ For this example, we will install the following (Note: when installing PyTorch u
 `conda install -c conda-forge matplotlib`
 `conda install -c conda-forge tqdm`
 
-Now you have a virtual environment created and all your packages installed, you can now use this environment every time you use Maxwell. Remember you must load the module anaconda3 before you activate your environment.
+Now you have a virtual environment created and all your packages installed, you can now use this environment every time you use Maxwell. Remember you must load the module miniconda3 before you activate your environment.
 
 ## 6. Intro to SLURM and running your code
 
